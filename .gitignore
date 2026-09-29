@@ -7,7 +7,7 @@ logs
 gofs
 .DS_Store
 /build
-/dist
+#/dist
 *.iml
 .externalNativeBuild
 /captures
