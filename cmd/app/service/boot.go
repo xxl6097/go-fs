@@ -20,13 +20,15 @@ func input() []byte {
 	user := utils.InputString("请输入管理员账号：")
 	pass := utils.InputString("请输入管理员密码：")
 	path := utils.InputString("请输入文件管理路径：")
-	cfg.AuthRules = []string{fmt.Sprintf("%s:%s@%s:rw", user, pass, path)}
+	cfg.ServePath = path
+	// 规则里 @ 后面是 URL 路径（相对服务根目录），不是磁盘路径。
+	// 填 path 等于只授权 URL /path，根目录反而无权限，列目录会 401。
+	cfg.AuthRules = []string{fmt.Sprintf("%s:%s@/:rw", user, pass)}
 	cfg.AllowAll = true
 	bb, e := ukey.StructToGob(cfg)
 	if e != nil {
 		return nil
 	}
-	gofs.Default()
 	return bb
 }
 

@@ -1,0 +1,54 @@
+#name: "Build for ${{ github.ref_name }}  by ${{ github.actor }}"
+run-name: "${{ github.ref_name }}"
+#on:
+#  workflow_dispatch:
+on:
+  push:
+    tags:
+      - 'v[0-99]*.[0-99]*.[0-99]*'  # 匹配所有以 v 开头的标签（如 v1.0.0）
+jobs:
+  goreleaser:
+    #if: contains(github.event.head_commit.message, 'DEPLOY')  echo echo"github：${{ toJson(github) }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 源码文件被修改了
+        id: changed-go-files         # 设置步骤ID，用于后续引用输出
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            cmd/**
+            internal/**
+            pkg/**
+          json: true              # 输出JSON格式（用于矩阵任务）[4](@ref)
+      - name: 编译golang程序
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - name: Make Go
+        run: |
+          chmod +x ./build.sh
+          ./build.sh github ${{ github.ref_name }}
+          if [ -e "./pre_release_files" ]; then
+              go install github.com/xxl6097/go-service/cmd/differ@latest
+              echo "./pre_release_files ./release ${{ github.ref_name }}"
+              echo "pre_release_files文件列表："
+              ls -lh ./pre_release_files
+              echo "./release/packages文件列表："
+              ls -lh ./release/packages
+              differ "./pre_release_files" "./release/packages" ${{ github.ref_name }}
+              echo "release文件列表："
+              ls -lh ./release/packages
+          else
+              echo "./pre_release_files不存在"
+          fi
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          version: latest
+          args: release --clean --release-notes=./Release.md --skip=validate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

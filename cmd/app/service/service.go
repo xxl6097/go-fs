@@ -2,16 +2,26 @@ package service
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/kardianos/service"
 	"github.com/xxl6097/gfs/pkg"
 	"github.com/xxl6097/glog/pkg/z"
 	"github.com/xxl6097/go-service/pkg/gs/igs"
+	"github.com/xxl6097/gofs"
 )
 
 type GFSService struct {
 	igs.BaseService
 	gs igs.Service
+}
+
+func (m *GFSService) UnInstall() {
+	z.L().Sugar().Debugln("mu service OnUninstall")
+	keyDir := gofs.DefaultKeyDir()
+	if keyDir != "" {
+		_ = os.RemoveAll(keyDir)
+	}
 }
 
 func (m *GFSService) OnConfig() *service.Config {
