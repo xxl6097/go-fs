@@ -8,6 +8,7 @@ import (
 	"github.com/xxl6097/gfs/pkg"
 	"github.com/xxl6097/glog/pkg/z"
 	"github.com/xxl6097/go-service/pkg/gs/igs"
+	"github.com/xxl6097/go-service/pkg/utils"
 	"github.com/xxl6097/gofs"
 )
 
@@ -30,6 +31,12 @@ func (m *GFSService) OnConfig() *service.Config {
 		Name:        pkg.AppName,
 		DisplayName: fmt.Sprintf("文件管理系统 %s", pkg.AppVersion),
 		Description: "a file manager system",
+	}
+	// macOS 下安装目录在用户目录（见 util_darwin.go），服务也注册为用户级
+	// LaunchAgent（~/Library/LaunchAgents/<name>.plist）；
+	// 否则 kardianos 会写到 /Library/LaunchDaemons，仍然需要 root。
+	if utils.IsMacOs() {
+		cfg.Option = service.KeyValue{"UserService": true}
 	}
 	return &cfg
 }
