@@ -28,9 +28,10 @@ func (m *GFSService) UnInstall() {
 func (m *GFSService) OnConfig() *service.Config {
 	z.L().Sugar().Debugln("mu service OnConfig")
 	cfg := service.Config{
-		Name:        pkg.AppName,
-		DisplayName: fmt.Sprintf("文件管理系统 %s", pkg.AppVersion),
-		Description: "a file manager system",
+		Name:         pkg.AppName,
+		DisplayName:  fmt.Sprintf("文件管理系统 %s", pkg.AppVersion),
+		Description:  "a file manager system",
+		Dependencies: []string{"After=local-fs.target network.target", "Requires=local-fs.target"},
 	}
 	// macOS 下安装目录在用户目录（见 util_darwin.go），服务也注册为用户级
 	// LaunchAgent（~/Library/LaunchAgents/<name>.plist）；
@@ -54,7 +55,10 @@ func (m *GFSService) OnRun(service igs.Service) error {
 	if err != nil {
 		return err
 	}
-	return boot(cfg)
+	if checkDir(cfg.ServePath) {
+		return boot(cfg)
+	}
+	return fmt.Errorf("目录不存在 %v", cfg.ServePath)
 }
 
 func (m *GFSService) GetAny(s string) ([]byte, []string) {

@@ -27,7 +27,7 @@ jobs:
       - name: 编译golang程序
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
       - name: Make Go
         run: |
           chmod +x ./build.sh

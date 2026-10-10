@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/xxl6097/glog/pkg/z"
 	"github.com/xxl6097/go-service/pkg/ukey"
@@ -33,9 +34,9 @@ func input() []byte {
 }
 
 func boot(cfg *gofs.Config) error {
-	fmt.Printf("===>%+v\n", cfg)
+	fmt.Printf("启动参数：%+v\n", cfg)
 	if err := runServer(cfg); err != nil {
-		z.L().Sugar().Errorf("agent 退出: %v", err)
+		z.L().Sugar().Errorf("gfs启动失败: %v", err)
 		return err
 	}
 	return nil
@@ -69,4 +70,26 @@ func runServer(cfg *gofs.Config) error {
 		return err
 	}
 	return nil
+}
+
+func checkDir(path string) bool {
+	for {
+		mounted, err := DirExists(path)
+		if err == nil && mounted {
+			return true
+		}
+		time.Sleep(3 * time.Second)
+	}
+}
+
+// DirExists 判断路径是否存在，并且是目录（支持软链接）
+func DirExists(path string) (bool, error) {
+	stat, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+	return stat.IsDir(), nil
 }
