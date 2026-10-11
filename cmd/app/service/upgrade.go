@@ -39,8 +39,7 @@ func (u *Upgrader) Check(ctx context.Context) (*gofs.Release, error) {
 	}
 	return releaseNote, err
 }
-func (u *Upgrader) Upgrade(ctx context.Context, rel *gofs.Release,
-	onProgress func(gofs.UpgradeProgress)) error {
+func (u *Upgrader) Upgrade(ctx context.Context, rel *gofs.Release) error {
 	urls := github.Api().GetProxyUrls(rel.FullURL)
 	fileUri := utils.DownloadFileWithCancelByUrls(urls) // 并发竞速，返回 "" 表示失败
 	if fileUri != "" {

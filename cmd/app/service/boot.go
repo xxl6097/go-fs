@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/xxl6097/gfs/pkg"
 	"github.com/xxl6097/glog/pkg/z"
 	"github.com/xxl6097/go-service/pkg/gs/igs"
 	"github.com/xxl6097/go-service/pkg/ukey"
@@ -61,6 +62,8 @@ func runServer(cfg *gofs.Config, gs igs.Service) error {
 	// 信号处理留在命令行入口：库不该替调用方决定什么时候退出。
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+
+	cfg.Version = pkg.AppVersion
 
 	if err := gofs.RunCfg(ctx, cfg, NewUpgrader(gs), os.Stdout, os.Stderr); err != nil {
 		if errors.Is(err, gofs.ErrHelp) {
