@@ -11,11 +11,11 @@ jobs:
     #if: contains(github.event.head_commit.message, 'DEPLOY')  echo echo"github：${{ toJson(github) }}"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: 代码检出
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: 源码文件被修改了
+      - name: 检测到文件变动
         id: changed-go-files         # 设置步骤ID，用于后续引用输出
         uses: tj-actions/changed-files@v45
         with:
@@ -24,11 +24,11 @@ jobs:
             internal/**
             pkg/**
           json: true              # 输出JSON格式（用于矩阵任务）[4](@ref)
-      - name: 编译golang程序
+      - name: 指定Golang编译版本
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
-      - name: Make Go
+          go-version: '1.26'
+      - name: 使用脚本编译Golang程序
         run: |
           chmod +x ./build.sh
           ./build.sh github ${{ github.ref_name }}
@@ -45,7 +45,7 @@ jobs:
           else
               echo "./pre_release_files不存在"
           fi
-      - name: Run GoReleaser
+      - name: 发布GitHub产物
         uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
