@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/xxl6097/gfs/pkg"
@@ -26,8 +25,8 @@ func (u *Upgrader) Check(ctx context.Context) (*gofs.Release, error) {
 	data, err := github.Api().CheckUpgrade(pkg.BinName)
 	if err != nil {
 		// 已是最新版时 err 为 "已是最新版本～"
-		log.Println(err)
-		return releaseNote, err
+		z.L().Sugar().Warnln(err)
+		return releaseNote, nil
 	}
 	publishedAt := data["publishedAt"].(time.Time) // markdown 文本，可直接渲染
 	releaseNote = &gofs.Release{
