@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/xxl6097/gfs/pkg"
 	"github.com/xxl6097/glog/pkg/z"
@@ -28,19 +29,11 @@ func (u *Upgrader) Check(ctx context.Context) (*gofs.Release, error) {
 		log.Println(err)
 		return releaseNote, err
 	}
-	// 有新版：
-	fullUrl := data["fullUrl"].(string)    // 全量包下载地址，可能为空
-	patchUrl := data["patchUrl"].(string)  // 差量包下载地址，可能为空
-	notes := data["releaseNotes"].(string) // markdown 文本，可直接渲染
-	fmt.Println(notes)
-	fmt.Println(patchUrl)
-	fmt.Println(fullUrl)
-	//uts := github.Api().GetProxyUrls(fullUrl)
-	//fmt.Println(uts)
+	publishedAt := data["publishedAt"].(time.Time) // markdown 文本，可直接渲染
 	releaseNote = &gofs.Release{
 		Version:     data["version"].(string),
 		Notes:       data["releaseNotes"].(string),
-		PublishedAt: data["publishedAt"].(string),
+		PublishedAt: publishedAt.Format(time.DateTime),
 		PageURL:     data["htmlUrl"].(string),
 		FullURL:     data["fullUrl"].(string),
 		PatchURL:    data["patchUrl"].(string),
