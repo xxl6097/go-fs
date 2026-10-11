@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/xxl6097/glog/pkg/z"
+	"github.com/xxl6097/go-service/pkg/gs/igs"
 	"github.com/xxl6097/go-service/pkg/ukey"
 	"github.com/xxl6097/go-service/pkg/utils"
 	"github.com/xxl6097/gofs"
@@ -33,9 +34,9 @@ func input() []byte {
 	return bb
 }
 
-func boot(cfg *gofs.Config) error {
+func boot(cfg *gofs.Config, gs igs.Service) error {
 	fmt.Printf("启动参数：%+v\n", cfg)
-	if err := runServer(cfg); err != nil {
+	if err := runServer(cfg, gs); err != nil {
 		z.L().Sugar().Errorf("gfs启动失败: %v", err)
 		return err
 	}
@@ -56,12 +57,12 @@ func loadBuffer() (*gofs.Config, error) {
 	return &cfg, nil
 }
 
-func runServer(cfg *gofs.Config) error {
+func runServer(cfg *gofs.Config, gs igs.Service) error {
 	// 信号处理留在命令行入口：库不该替调用方决定什么时候退出。
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	if err := gofs.RunCfg(ctx, cfg, os.Stdout, os.Stderr); err != nil {
+	if err := gofs.RunCfg(ctx, cfg, NewUpgrader(gs), os.Stdout, os.Stderr); err != nil {
 		if errors.Is(err, gofs.ErrHelp) {
 			os.Exit(0)
 		}

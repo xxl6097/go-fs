@@ -56,7 +56,7 @@ func (m *GFSService) OnRun(service igs.Service) error {
 		return err
 	}
 	if checkDir(cfg.ServePath) {
-		return boot(cfg)
+		return boot(cfg, service)
 	}
 	return fmt.Errorf("目录不存在 %v", cfg.ServePath)
 }

@@ -5,8 +5,8 @@ go 1.26.0
 require (
 	github.com/kardianos/service v1.3.0
 	github.com/xxl6097/glog v0.1.96
-	github.com/xxl6097/go-service v0.7.76
-	github.com/xxl6097/gofs v0.0.16
+	github.com/xxl6097/go-service v0.7.78
+	github.com/xxl6097/gofs v0.0.21
 	go.uber.org/zap v1.28.0
 )
 
