@@ -5,8 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	"github.com/xxl6097/gfs/pkg"
@@ -59,18 +57,12 @@ func loadBuffer() (*gofs.Config, error) {
 }
 
 func runServer(cfg *gofs.Config, gs igs.Service) error {
-	// 信号处理留在命令行入口：库不该替调用方决定什么时候退出。
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
-
 	cfg.Version = pkg.AppVersion
-
-	if err := gofs.RunCfg(ctx, cfg, NewUpgrader(gs), os.Stdout, os.Stderr); err != nil {
+	if err := gofs.RunCfg(context.Background(), cfg, NewUpgrader(gs), os.Stdout, os.Stderr); err != nil {
 		if errors.Is(err, gofs.ErrHelp) {
 			os.Exit(0)
 		}
 		fmt.Fprintf(os.Stderr, "gofs: %v\n", err)
-		//os.Exit(1)
 		return err
 	}
 	return nil
