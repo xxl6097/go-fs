@@ -8,8 +8,8 @@ github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKs
 github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/xxl6097/glog v0.1.96 h1:TpxXctr61J/M85CLqR7S5cMBKuc8OSdZRa06YlD+Lw0=
 github.com/xxl6097/glog v0.1.96/go.mod h1:ACcixOvbQXtVaVjlU7+K2IXTwaJUNbRlJISeWmGFZJU=
-github.com/xxl6097/go-service v0.7.79 h1:7f6Ew2gDBsltyNEDpBaJ54YeC56TQbM1tq1pLZ8Mx38=
-github.com/xxl6097/go-service v0.7.79/go.mod h1:cDUxwhVnx5IBt3qUbstPEImz1+f89OnoPhK9W+MwB8A=
+github.com/xxl6097/go-service v0.7.82 h1:ngyCIw+xwzJJBBIlM18pzYtObgBYpiS6gnCf3ZmMZ1M=
+github.com/xxl6097/go-service v0.7.82/go.mod h1:cDUxwhVnx5IBt3qUbstPEImz1+f89OnoPhK9W+MwB8A=
 github.com/xxl6097/go-update v0.0.6 h1:z7ipTgVjlXVVNRgMjrrgZfXfDZdb2LUJjsvMh4qwEu8=
 github.com/xxl6097/go-update v0.0.6/go.mod h1:9UQ2j2O/xLQA7laXvxfnOruPUkq9zaLRG/AbwV3TFAM=
 github.com/xxl6097/gofs v0.0.23 h1:BtX0MkTIQTTRrPQVoy0IG0j8qdbYwaZ6el8NDLMojVg=
