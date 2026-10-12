@@ -52,12 +52,18 @@ func (u *Upgrader) Upgrade(ctx context.Context, rel *gofs.Release, onProgress fu
 		Stage: gofs.StageDownloading, Total: rel.Size, Message: rel.Version,
 	})
 
-	fileUri := utils.DownloadFileWithCancelByUrls(urls, func(progress float64) {
-
+	fileUri := utils.DownloadFileWithCancelByUrls(urls, func(progress utils.Progress) {
+		report(gofs.UpgradeProgress{
+			Stage: gofs.StageDownloading, Loaded: progress.Loaded, Total: progress.Total, Message: rel.Version,
+		})
 	})
 	// 并发竞速，返回 "" 表示失败
 	if fileUri != "" {
 		z.L().Debug("升级文件", zap.String("fileUri", fileUri))
+		report(gofs.UpgradeProgress{
+			Stage:   gofs.StageDone,
+			Message: "dry-run：已下载并校验通过，未替换（临时文件已清理）",
+		})
 		err := u.gs.Upgrade(ctx, fileUri)
 		return err
 	}
