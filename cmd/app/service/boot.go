@@ -58,7 +58,7 @@ func loadBuffer() (*gofs.Config, error) {
 
 func runServer(cfg *gofs.Config, gs igs.Service) error {
 	cfg.Version = pkg.AppVersion
-	if err := gofs.RunCfg(context.Background(), cfg, NewUpgrader(gs), os.Stdout, os.Stderr); err != nil {
+	if err := gofs.RunCfg(context.Background(), cfg, NewUpgrader(gs), NewRestarter(gs), os.Stdout, os.Stderr); err != nil {
 		if errors.Is(err, gofs.ErrHelp) {
 			os.Exit(0)
 		}
