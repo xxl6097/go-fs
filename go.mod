@@ -6,7 +6,7 @@ require (
 	github.com/kardianos/service v1.3.0
 	github.com/xxl6097/glog v0.1.96
 	github.com/xxl6097/go-service v0.7.83
-	github.com/xxl6097/gofs v0.0.38
+	github.com/xxl6097/gofs v0.0.39
 	go.uber.org/zap v1.28.0
 )
 
