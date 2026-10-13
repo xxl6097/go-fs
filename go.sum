@@ -12,8 +12,8 @@ github.com/xxl6097/go-service v0.7.83 h1:2o0+EiNUDDcZ8a58PMNyV3Mcep6pPzYXyATghez
 github.com/xxl6097/go-service v0.7.83/go.mod h1:cDUxwhVnx5IBt3qUbstPEImz1+f89OnoPhK9W+MwB8A=
 github.com/xxl6097/go-update v0.0.6 h1:z7ipTgVjlXVVNRgMjrrgZfXfDZdb2LUJjsvMh4qwEu8=
 github.com/xxl6097/go-update v0.0.6/go.mod h1:9UQ2j2O/xLQA7laXvxfnOruPUkq9zaLRG/AbwV3TFAM=
-github.com/xxl6097/gofs v0.0.39 h1:PiPLfp7MAmC37LnWxvqX3ThxLDNdFd5+Qxh5MybOlT8=
-github.com/xxl6097/gofs v0.0.39/go.mod h1:G86zuZ46ZPrHvxR5p5Ui4dDcook2LGOm8KSK/b8zgmU=
+github.com/xxl6097/gofs v0.0.40 h1:LiML7DJzuDMJYDHyQoXVHtHwe9wcwxZMMmJCLkMVp+s=
+github.com/xxl6097/gofs v0.0.40/go.mod h1:G86zuZ46ZPrHvxR5p5Ui4dDcook2LGOm8KSK/b8zgmU=
 go.uber.org/goleak v1.3.0 h1:2K3zAYmnTNqV73imy9J1T3WC+gmCePx2hEGkimedGto=
 go.uber.org/goleak v1.3.0/go.mod h1:CoHD4mav9JJNrW/WLlf7HGZPjdw8EucARQHekz1X6bE=
 go.uber.org/multierr v1.11.0 h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0=
