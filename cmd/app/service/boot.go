@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/xxl6097/gfs/internal"
 	"github.com/xxl6097/gfs/pkg"
 	"github.com/xxl6097/glog/pkg/z"
 	"github.com/xxl6097/go-service/pkg/gs/igs"
@@ -17,10 +18,13 @@ import (
 
 func input() []byte {
 	cfg := gofs.Default()
-	cfg.Port = utils.InputInt("请输入端口：")
-	user := utils.InputString("请输入管理员账号：")
+	cfg.Port = utils.InputIntDefault("管理后台端口(8088):", 8088)
+	user := utils.InputStringEmpty("管理后台用户名(admin):", "admin")
 	pass := utils.InputString("请输入管理员密码：")
-	path := utils.InputString("请输入文件管理路径：")
+	path, err := InputPath("请输入文件管理路径：")
+	if err != nil {
+		return nil
+	}
 	cfg.ServePath = path
 	// 规则里 @ 后面是 URL 路径（相对服务根目录），不是磁盘路径。
 	// 填 path 等于只授权 URL /path，根目录反而无权限，列目录会 401。
@@ -58,7 +62,7 @@ func loadBuffer() (*gofs.Config, error) {
 
 func runServer(cfg *gofs.Config, gs igs.Service) error {
 	cfg.Version = pkg.AppVersion
-	if err := gofs.RunCfg(context.Background(), cfg, NewUpgrader(gs), NewRestarter(gs), os.Stdout, os.Stderr); err != nil {
+	if err := internal.RunCfg(context.Background(), cfg, NewUpgrader(gs), NewRestarter(gs), os.Stdout, os.Stderr); err != nil {
 		if errors.Is(err, gofs.ErrHelp) {
 			os.Exit(0)
 		}

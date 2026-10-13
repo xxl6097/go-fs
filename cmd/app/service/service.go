@@ -26,7 +26,6 @@ func (m *GFSService) UnInstall() {
 }
 
 func (m *GFSService) OnConfig() *service.Config {
-	z.L().Sugar().Debugln("mu service OnConfig")
 	cfg := service.Config{
 		Name:         pkg.AppName,
 		DisplayName:  fmt.Sprintf("文件管理系统 %s", pkg.AppVersion),
