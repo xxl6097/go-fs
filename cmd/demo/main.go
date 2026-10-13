@@ -39,7 +39,7 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	if err := gofs.RunCfg(ctx, cfg, up, os.Stdout, os.Stderr); err != nil {
+	if err := gofs.RunCfg(ctx, cfg, up, nil, os.Stdout, os.Stderr); err != nil {
 		if errors.Is(err, gofs.ErrHelp) {
 			os.Exit(0)
 		}
