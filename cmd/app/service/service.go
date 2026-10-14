@@ -61,6 +61,6 @@ func (m *GFSService) OnRun(service igs.Service) error {
 }
 
 func (m *GFSService) GetAny(s string) ([]byte, []string) {
-	z.L().Sugar().Debugln("GFSService service GetAny")
+	//z.L().Sugar().Debugln("GFSService service GetAny")
 	return input(), nil
 }
