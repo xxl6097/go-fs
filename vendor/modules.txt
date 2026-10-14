@@ -1,0 +1,63 @@
+# github.com/chzyer/readline v1.5.1
+## explicit; go 1.15
+github.com/chzyer/readline
+# github.com/kardianos/service v1.3.0
+## explicit; go 1.23.0
+github.com/kardianos/service
+# github.com/xxl6097/glog v0.1.96
+## explicit; go 1.23.0
+github.com/xxl6097/glog/pkg/z
+github.com/xxl6097/glog/pkg/zutil
+# github.com/xxl6097/go-service v0.7.84
+## explicit; go 1.23.2
+github.com/xxl6097/go-service/internal
+github.com/xxl6097/go-service/internal/core
+github.com/xxl6097/go-service/pkg/github
+github.com/xxl6097/go-service/pkg/github/model
+github.com/xxl6097/go-service/pkg/gs
+github.com/xxl6097/go-service/pkg/gs/igs
+github.com/xxl6097/go-service/pkg/ukey
+github.com/xxl6097/go-service/pkg/utils
+github.com/xxl6097/go-service/pkg/utils/util
+# github.com/xxl6097/go-update v0.0.6
+## explicit; go 1.23.2
+github.com/xxl6097/go-update
+github.com/xxl6097/go-update/pkg/binarydist
+github.com/xxl6097/go-update/pkg/osext
+# github.com/xxl6097/gofs v0.0.57
+## explicit; go 1.24
+github.com/xxl6097/gofs
+github.com/xxl6097/gofs/githubupgrade
+github.com/xxl6097/gofs/internal/archive
+github.com/xxl6097/gofs/internal/auth
+github.com/xxl6097/gofs/internal/config
+github.com/xxl6097/gofs/internal/fsutil
+github.com/xxl6097/gofs/internal/office
+github.com/xxl6097/gofs/internal/server
+github.com/xxl6097/gofs/internal/textfile
+github.com/xxl6097/gofs/internal/uploadkey
+# go.uber.org/multierr v1.11.0
+## explicit; go 1.19
+go.uber.org/multierr
+# go.uber.org/zap v1.28.0
+## explicit; go 1.19
+go.uber.org/zap
+go.uber.org/zap/buffer
+go.uber.org/zap/internal
+go.uber.org/zap/internal/bufferpool
+go.uber.org/zap/internal/color
+go.uber.org/zap/internal/exit
+go.uber.org/zap/internal/pool
+go.uber.org/zap/internal/stacktrace
+go.uber.org/zap/zapcore
+# golang.org/x/sys v0.49.0
+## explicit; go 1.26.0
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+golang.org/x/sys/windows/registry
+golang.org/x/sys/windows/svc
+golang.org/x/sys/windows/svc/eventlog
+golang.org/x/sys/windows/svc/mgr
+# gopkg.in/natefinch/lumberjack.v2 v2.2.1
+## explicit; go 1.13
+gopkg.in/natefinch/lumberjack.v2
