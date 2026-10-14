@@ -54,7 +54,7 @@ func loadBuffer() (*gofs.Config, error) {
 	var cfg gofs.Config
 	err = ukey.GobToStruct(byteArray, &cfg)
 	if err != nil {
-		fmt.Println("解密错误", err)
+		z.L().Sugar().Error("解密错误", err)
 		return nil, err
 	}
 	return &cfg, nil
@@ -62,11 +62,11 @@ func loadBuffer() (*gofs.Config, error) {
 
 func runServer(cfg *gofs.Config, gs igs.Service) error {
 	cfg.Version = pkg.AppVersion
-	if err := internal.RunCfg(context.Background(), cfg, NewUpgrader(gs), NewRestarter(gs), os.Stdout, os.Stderr); err != nil {
+	if err := internal.RunCfg(context.Background(), cfg, gs, os.Stdout, os.Stderr); err != nil {
 		if errors.Is(err, gofs.ErrHelp) {
 			os.Exit(0)
 		}
-		fmt.Fprintf(os.Stderr, "gofs: %v\n", err)
+		z.L().Sugar().Errorf("gofs: %v\n", err)
 		return err
 	}
 	return nil

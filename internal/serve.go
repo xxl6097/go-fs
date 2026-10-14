@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/xxl6097/go-service/pkg/gs/igs"
 	"github.com/xxl6097/gofs"
 )
 
-func RunCfg(ctx context.Context, cfg *gofs.Config, uploader gofs.Upgrader, restarter gofs.Restarter, stdout, stderr io.Writer) error {
+func RunCfg(ctx context.Context, cfg *gofs.Config, gs igs.Service, stdout, stderr io.Writer) error {
 	srv, err := gofs.New(gofs.WithConfig(cfg),
-		gofs.WithUpgrader(uploader),
-		gofs.WithRestarter(restarter))
+		gofs.WithUpgrader(NewUpgrader(gs)),
+		gofs.WithUninstaller(Uninstaller(gs)),
+		gofs.WithRestarter(Restarter(gs)))
 	if err != nil {
 		return err
 	}
