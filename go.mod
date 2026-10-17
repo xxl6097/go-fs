@@ -6,7 +6,7 @@ require (
 	github.com/chzyer/readline v1.5.1
 	github.com/kardianos/service v1.3.0
 	github.com/xxl6097/glog v0.1.96
-	github.com/xxl6097/go-service v0.7.84
+	github.com/xxl6097/go-service v0.7.85
 	github.com/xxl6097/gofs v0.0.64
 	go.uber.org/zap v1.28.0
 )
