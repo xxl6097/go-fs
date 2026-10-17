@@ -1,8 +1,8 @@
 ### 🐛 Bug 修复
 
-* 修复 Windows 下服务「能安装成功、却启动不了」：`Dependencies` 此前被无条件设置成 systemd 的指令行（`After=local-fs.target network.target` / `Requires=local-fs.target`），而 Windows 会把每一项当作**依赖的服务名**交给 SCM，启动时找不到名为 `After=local-fs.target network.target` 的服务，直接报 “The dependency service does not exist or has been marked for deletion.”。现只在 Linux 上设置该系统项；
-* 修复 Windows 下卸载 / 升级时删除自身二进制失败：运行中的 exe 在 Windows 上无法删除（Access is denied），现在 Windows 直接跳过这一步；Linux / macOS 仍允许 unlink 正在运行的文件，行为不变；
-* 修复服务启动失败时日志出现 `%!v(MISSING)`：格式化串里留了一个 `%v` 占位却没有对应参数（错误详情已由 `zap.Error` 输出），现去掉该占位；
+* 修复 macOS 下升级「提示失败、其实已升级」：升级到最后拉起 restart 子进程时报 `RunChildProcess错误: fork/exec …: operation not permitted`。原因是给子进程同时设置了 `Setsid` 与 `Setpgid`，而 Go 在 macOS 上先执行 `setsid()`、再执行 `setpgid(0,0)` —— 此时子进程已经是新会话的首进程，POSIX 规定会话首进程不能改变自己的进程组，`setpgid` 返回 `EPERM`，exec 直接起不来。现只保留 `Setsid`（与 Linux 侧一致）；
+* 该错误与被执行的程序本身无关：二进制其实已经替换成功，失败的是随后的「重启子进程」。macOS 上的「重启」「卸载」也走同一条路径，此前同样会失败，本次一并修复；
+* FreeBSD 的同类实现存在完全相同的组合，一并修复；
 
 ---
 ### 🚀 github加速
