@@ -52,13 +52,25 @@ func loadBuffer() (*gofs.Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	var cfg gofs.Config
-	err = ukey.GobToStruct(byteArray, &cfg)
+	cfg, err := decodeConfig(byteArray)
 	if err != nil {
 		z.L().Sugar().Error("解密错误", err)
 		return nil, err
 	}
-	return &cfg, nil
+	return cfg, nil
+}
+
+// decodeConfig 从默认值起解码签名里的 gob 配置。
+//
+// 旧版本签进二进制的配置没有后来新增的字段（例如 AuthLockMaxDelay），
+// 从零值解码会让这些字段变成 0，过不了 gofs 的校验；gob 只覆盖流里
+// 存在的字段，所以缺失的新字段会保留这里的默认值。
+func decodeConfig(byteArray []byte) (*gofs.Config, error) {
+	cfg := gofs.Default()
+	if err := ukey.GobToStruct(byteArray, cfg); err != nil {
+		return nil, err
+	}
+	return cfg, nil
 }
 
 func runServer(cfg *gofs.Config, gs igs.Service) error {
