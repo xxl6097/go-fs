@@ -18,6 +18,7 @@ import (
 
 func input() []byte {
 	cfg := gofs.Default()
+	cfg.Bind = utils.InputStringEmpty("服务监听地址(0.0.0.0):", "0.0.0.0")
 	cfg.Port = utils.InputIntDefault("管理后台端口(8088):", 8088)
 	user := utils.InputStringEmpty("管理后台用户名(admin):", "admin")
 	pass := utils.InputString("请输入管理员密码：")
