@@ -14,6 +14,7 @@ require (
 require (
 	github.com/xxl6097/go-update v0.0.6 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
+	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/sys v0.49.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 )
