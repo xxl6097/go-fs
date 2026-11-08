@@ -1,5 +1,19 @@
 ### 🐛 Bug 修复
 
+**修复设置面板变量作用域导致崩溃**
+
+* 变量 `publicDirsData` 原本在 `fill()` 内用 `var` 声明，
+  但在外层的 `dirty()` 和 `save()` 中引用，导致 `ReferenceError`；
+* 表现为**点击保存按钮无响应**、**无法切换 tab**（密钥、用户与权限等），
+  整个设置面板崩溃；
+* 修复：`publicDirsData` 移至 `buildGeneralTab` 外层作用域声明，
+  `fill()` 内改为直接赋值；导出按钮的 `copyText` 改为 `G.copyText`
+  （跨文件引用）；
+* 升级 gofs 到 v0.1.21。
+
+---
+### 🐛 Bug 修复
+
 **公开目录绿色徽标在页面加载时即可显示**
 
 * 之前 `public_dirs` 只随 `/fs/auth` 登录响应下发，初始页面渲染时
