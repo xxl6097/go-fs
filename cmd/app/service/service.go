@@ -41,7 +41,8 @@ func (m *GFSService) OnConfig() *service.Config {
 	if runtime.GOOS == "linux" {
 		cfg.Dependencies = []string{"After=local-fs.target network.target", "Requires=local-fs.target"}
 		// 禁用 Huge Pages 支持，解决 getHugePageSize() panic 问题
-		cfg.Option = service.KeyValue{"Environment": []string{"GODEBUG=madvdontneed=1"}}
+		//cfg.Option = service.KeyValue{"Environment": []string{"GODEBUG=madvdontneed=1"}}
+		cfg.EnvVars["GODEBUG"] = "madvdontneed=1"
 	}
 	// macOS 下安装目录在用户目录（见 util_darwin.go），服务也注册为用户级
 	// LaunchAgent（~/Library/LaunchAgents/<name>.plist）；
