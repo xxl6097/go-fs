@@ -40,8 +40,10 @@ func (m *GFSService) OnConfig() *service.Config {
 	// "The dependency service does not exist or has been marked for deletion."。
 	if runtime.GOOS == "linux" {
 		cfg.Dependencies = []string{"After=local-fs.target network.target", "Requires=local-fs.target"}
-		// 禁用 Huge Pages 支持，解决 getHugePageSize() panic 问题
-		cfg.EnvVars = map[string]string{"GODEBUG": "madvdontneed=1"}
+		// 注意：不要再往这里塞 GODEBUG 之类的运行时开关。
+		// 曾经为「getHugePageSize() panic」加过 GODEBUG=madvdontneed=1，那是误判：
+		// 真正的成因是签名时配置数据超出内嵌占位区、二进制被撑长导致 ELF 错位，
+		// 崩在 getHugePageSize 只是巧合（它是最早读全局变量的地方）。
 	}
 	// macOS 下安装目录在用户目录（见 util_darwin.go），服务也注册为用户级
 	// LaunchAgent（~/Library/LaunchAgents/<name>.plist）；
