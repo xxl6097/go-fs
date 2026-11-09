@@ -60,6 +60,8 @@ func (m *GFSService) OnVersion() string {
 
 func (m *GFSService) OnRun(service igs.Service) error {
 	z.L().Sugar().Debugln("GFSService service OnRun")
+	// 确保在运行时禁用 Huge Pages
+	_ = os.Setenv("GODEBUG", "madvdontneed=1")
 	m.gs = service
 	cfg, err := loadBuffer()
 	if err != nil {
