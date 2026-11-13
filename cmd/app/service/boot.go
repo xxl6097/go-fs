@@ -27,6 +27,11 @@ func input() []byte {
 		return nil
 	}
 	cfg.ServePath = path
+	// 访问路径前缀：留空表示不设置（服务挂在根 /）。例如填 /files 则访问 /files/。
+	// gofs 启动时会归一化（补前导斜杠、去尾斜杠），并在鉴权前剥掉前缀。
+	if prefix := utils.InputStringEmpty("访问路径前缀(如 /files, 空则不设置):", ""); prefix != "" {
+		cfg.PathPrefix = prefix
+	}
 	// 规则里 @ 后面是 URL 路径（相对服务根目录），不是磁盘路径。
 	// 填 path 等于只授权 URL /path，根目录反而无权限，列目录会 401。
 	cfg.AuthRules = []string{fmt.Sprintf("%s:%s@/:rw", user, pass)}
